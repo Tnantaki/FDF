@@ -28,12 +28,13 @@ void	init_window(t_param *par)
 
 int	close_win(t_param *par)
 {
-	double_free((void **)par->map.cor);
+	// double_free((void **)par->map.cor);
 	mlx_destroy_window(par->mlx, par->win);
 	free(par->mlx);
 	exit (0);
 	return (0);
 }
+
 void	create_image(t_param *par)
 {
 	par->img.ptr = mlx_new_image(par->mlx, WD_WIDTH, WD_HEIGHT);
@@ -49,8 +50,11 @@ void	create_image(t_param *par)
 
 void	put_pixel_to_image(t_image *img, int x, int y, int color)
 {
-	char	*dst;
+	unsigned int	*dst;
 
-	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(unsigned int *)dst = (unsigned int)color;
+	if (x >= 0 && x < WD_WIDTH && y >= 0 && y < WD_HEIGHT)
+	{
+		dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
+		*dst = (unsigned int)color;
+	}
 }

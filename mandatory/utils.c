@@ -26,7 +26,6 @@ int	ft_strlenchr(const char *str, int c)
 	return (i);
 }
 
-
 void	prt_err_msg(int err)
 {
 	ft_putstr_fd("\e[0;36m", 1);
