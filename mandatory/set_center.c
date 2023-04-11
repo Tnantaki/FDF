@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_center.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/11 08:29:52 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/04/11 08:29:54 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fdf.h"
 
 void	calculate_center(t_param *par, int *start_x, int *start_y)
 {
 	int	x_map;
 	int	y_map;
-	int half_width_map;
-	int half_height_map;
+	int	half_width_map;
+	int	half_height_map;
 
 	x_map = (par->w * par->span) / 2;
 	y_map = (par->h * par->span) / 2;
@@ -15,11 +27,11 @@ void	calculate_center(t_param *par, int *start_x, int *start_y)
 	*start_y = (WD_HEIGHT / 2) - half_height_map;
 }
 
-void set_center(t_param *par)
+void	set_center(t_param *par)
 {
-	int col;
-	int row;
-	int start_x;
+	int	col;
+	int	row;
+	int	start_x;
 	int	start_y;
 
 	calculate_center(par, &start_x, &start_y);

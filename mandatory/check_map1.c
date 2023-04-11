@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map1.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/11 08:29:12 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/04/11 08:29:17 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fdf.h"
 
 int	check_filename(char *mapfile)
@@ -21,7 +33,6 @@ int	check_filename(char *mapfile)
 	return (0);
 }
 
-
 static int	count_line(char *mapfile)
 {
 	int		fd;
@@ -31,12 +42,12 @@ static int	count_line(char *mapfile)
 	height = 0;
 	fd = open(mapfile, O_RDONLY);
 	if (fd == -1)
-		prt_err_msg(2);
+		exit_msg(2);
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			break;
+			break ;
 		free(line);
 		height++;
 	}
@@ -94,12 +105,18 @@ char	***read_map(t_param *par, char *mapfile)
 
 	fd = open(mapfile, O_RDONLY);
 	if (fd == -1)
-		prt_err_msg(2);
+		exit_msg(2);
 	par->h = count_line(mapfile);
 	map = malloc(sizeof(char *) * (par->h + 1));
 	if (!map)
-		prt_err_sys(2);
+	{
+		close(fd);
+		exit(1);
+	}
 	if (get_map(map, fd, par->h) != 1)
-		prt_err_sys(2);
+	{
+		close(fd);
+		exit(1);
+	}
 	return (map);
 }

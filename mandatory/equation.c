@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   equation.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/11 08:31:12 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/04/11 08:31:13 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fdf.h"
 
 float	absolute(float num)
@@ -16,8 +28,8 @@ float	find_max(float a, float b)
 
 void	isometric(float *x, float *y, float z)
 {
-	float pv_x;
-	float pv_y;
+	float	pv_x;
+	float	pv_y;
 
 	pv_x = *x;
 	pv_y = *y;
@@ -25,7 +37,7 @@ void	isometric(float *x, float *y, float z)
 	*y = (pv_x + pv_y) * sin(THETA) - z;
 }
 
-void	bresenham(t_image *img, t_node p1, t_node p2)
+void	dda(t_image *img, t_node p1, t_node p2)
 {
 	float	dx;
 	float	dy;

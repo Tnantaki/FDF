@@ -140,6 +140,17 @@ void bresenham(float x1, float x2, float y1, float y2)
 	}
 	printf("\n");
 }
+#include <time.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/time.h>
+long int	get_elapse_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000000 + time.tv_usec);
+}
 
 int	main(void)
 {
@@ -153,16 +164,32 @@ int	main(void)
 	bsh.x2 = x2;
 	bsh.y2 = y2;
 
-	printf("bresenham\n");
-	bresenham(x1, x2, y1, y2);
-	printf("---------\n");
-	printf("P\n");
-	bresenham_P(bsh);
-	printf("---------\n");
-	printf("float\n");
-	bresenham_float(x1, x2, y1, y2);
-	// int a = 18;
-	// int b = 9;
+	// printf("bresenham\n");
+	// bresenham(x1, x2, y1, y2);
+	// printf("---------\n");
+	// printf("P\n");
+	// bresenham_P(bsh);
+	// printf("---------\n");
+	// printf("float\n");
+	// bresenham_float(x1, x2, y1, y2);
 	// printf("%d\n", a / b);
+	long int t = get_elapse_time();
+
+	int a = 200000000;
+	int a2 = 343;
+	int a3 = 343;
+	int	a4 = 41;
+	int	a5 = 89;
+	float b = 200000000;
+	float b2 = 530;
+	float b3 = 343;
+	for (int i = 0; i < 10000; i++)
+		a = (a / a2) * a3 - 50 + 25 * 2 - a4 + a5;
+	// for (int i = 0; i < 10000; i++)
+	// 	b = (b / b2) * b3;
+	printf("a:%d\n", a);
+	// printf("b:%f\n", b);
+
+	printf("time:%ld\n", get_elapse_time() - t);
 
 }

@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_error.c                                      :+:      :+:    :+:   */
+/*   check_map2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tnantaki <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/11 18:46:32 by tnantaki          #+#    #+#             */
-/*   Updated: 2023/03/11 18:46:37 by tnantaki         ###   ########.fr       */
+/*   Created: 2023/04/11 08:29:31 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/04/11 08:29:33 by tnantaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-static int count_map_width(char **ptr)
+static int	count_map_width(char **ptr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!ptr)
@@ -26,11 +26,11 @@ static int count_map_width(char **ptr)
 	return (i);
 }
 
-int check_row(t_param *par, char ***map)
+int	check_row(t_param *par, char ***map)
 {
-	int i;
-	int len1;
-	int len2;
+	int	i;
+	int	len1;
+	int	len2;
 
 	len1 = count_map_width(map[0]);
 	i = 1;
@@ -45,10 +45,10 @@ int check_row(t_param *par, char ***map)
 	return (1);
 }
 
-t_node **allocate_wireframe(t_param *par)
+t_node	**allocate_wireframe(t_param *par)
 {
-	int i;
-	t_node **node;
+	int		i;
+	t_node	**node;
 
 	node = malloc(sizeof(t_node *) * par->h);
 	if (!node)
@@ -58,7 +58,7 @@ t_node **allocate_wireframe(t_param *par)
 	{
 		node[i] = malloc(sizeof(t_node) * par->w);
 		if (!node[i])
-			break;
+			break ;
 		i++;
 	}
 	if (i == par->w)
@@ -67,10 +67,10 @@ t_node **allocate_wireframe(t_param *par)
 	return (NULL);
 }
 
-static int htoi(char *str)
+static int	htoi(char *str)
 {
-	long long nb;
-	int i;
+	int			i;
+	long long	nb;
 
 	i = 0;
 	nb = 0;
@@ -85,17 +85,17 @@ static int htoi(char *str)
 		else if (str[i] >= 'A' && str[i] <= 'F')
 			nb = nb * 16 + (str[i] - 55);
 		else
-			break;
+			break ;
 		i++;
 	}
 	return (nb);
 }
 
-int altitude_color(t_param *par, char ***map)
+int	altitude_color(t_param *par, char ***map)
 {
-	int x;
-	int y;
-	char **tmp;
+	int		x;
+	int		y;
+	char	**tmp;
 
 	y = 0;
 	while (y < par->h)
