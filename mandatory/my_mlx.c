@@ -12,6 +12,25 @@
 
 #include "../includes/fdf.h"
 
+void	my_mlx_clear_image(t_param *par)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < WD_HEIGHT)
+	{
+		x = 0;
+		while (x < WD_WIDTH)
+		{
+			put_pixel_to_image(&par->img, x, y, BLACK_PIXEL);
+			x++;
+		}
+		y++;
+	}
+	mlx_put_image_to_window(par->mlx, par->win, par->img.ptr, 0, 0);
+}
+
 void	change_node(t_param *par, t_node **node, int *change)
 {
 	int	col;
@@ -23,13 +42,15 @@ void	change_node(t_param *par, t_node **node, int *change)
 		row = 0;
 		while (row < par->w)
 		{
-			node[col][row].y += par->move_x;
-			node[col][row].x += par->move_y;
+			node[col][row].y += par->move_y;
+			node[col][row].x += par->move_x;
 			row++;
 		}
 		col++;
 	}
+	my_mlx_clear_image(par);
 	render_line(&par->img, node, par->w, par->h);
+	mlx_put_image_to_window(par->mlx, par->win, par->img.ptr, 0, 0);
 	*change = 0;
 	par->move_x = 0;
 	par->move_y = 0;
@@ -40,20 +61,18 @@ int	key_hook(int keycode, t_param *par)
 	int	change;
 
 	change = 1;
-	printf("keycode:%d\n", keycode);
 	if (keycode == KEY_ESC)
 		close_win(par);
 	else if (keycode == KEY_W || keycode == KEY_UP)
-		par->move_y += 15;
+		par->move_y -= MOVE_RATIO;
 	else if (keycode == KEY_A || keycode == KEY_LEFT)
-		par->move_x -= 15;
+		par->move_x -= MOVE_RATIO;
 	else if (keycode == KEY_S || keycode == KEY_DOWN)
-		par->move_y -= 15;
+		par->move_y += MOVE_RATIO;
 	else if (keycode == KEY_D || keycode == KEY_RIGHT)
-		par->move_x += 15;
+		par->move_x += MOVE_RATIO;
 	else
 		change = 0;
-	printf("change:%d\n", change);
 	if (change)
 		change_node(par, par->node, &change);
 	return (0);

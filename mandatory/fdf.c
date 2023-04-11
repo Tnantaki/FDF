@@ -67,7 +67,8 @@ int	main(int ac, char **av)
 	render_line(&par.img, par.node, par.w, par.h);
 	// print_xy(&par, "After Rotate");
 	mlx_put_image_to_window(par.mlx, par.win, par.img.ptr, 0, 0);
-	mlx_key_hook(par.win, key_hook, &par);
+	// mlx_key_hook(par.win, key_hook, &par);
+	mlx_hook(par.win, 2, 1L<<0, key_hook, &par);
 	mlx_hook(par.win, 17, 0, close_win, &par);
 	mlx_loop(par.mlx);
 }

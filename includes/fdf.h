@@ -31,6 +31,7 @@
 # define WD_WIDTH 1920
 # define WD_HEIGHT 1080
 # define THETA 0.523599
+# define MOVE_RATIO 15
 // error message
 # define ERR_ARG "The Program take one map file argument.\n"
 # define ERR_OPN "Can't open map file.\n"
@@ -46,7 +47,7 @@
 # define PURPLE_PIXEL 0x7F00FF
 # define KRAM_PIXEL 0x3333FF
 # define WHITE_PIXEL 0xFFFFFF
-# define BLACK_PIXEL 0xFF000000
+# define BLACK_PIXEL 0x000000
 # define TRAN_PIXEL 0xD000FF00
 // node
 typedef struct s_node
