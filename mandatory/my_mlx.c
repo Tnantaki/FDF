@@ -58,10 +58,10 @@ int	key_hook(int keycode, t_param *par)
 		par->move_y += MOVE_RATIO;
 	else if (keycode == KEY_D || keycode == KEY_RIGHT)
 		par->move_x += MOVE_RATIO;
-	else if (keycode == KEY_PLUS)
-		par->span *= ZOOM_RATIO;
-	else if (keycode == KEY_MINUS)
-		par->span /= ZOOM_RATIO;
+	else if (keycode == KEY_PLUS && par->zoom < 20)
+		par->zoom *= ZOOM_RATIO;
+	else if (keycode == KEY_MINUS && par->zoom > 0.05)
+		par->zoom /= ZOOM_RATIO;
 	else
 		return (0);
 	if (event)

@@ -13,15 +13,20 @@
 #ifndef FDF_H
 # define FDF_H
 
-# include "../mlx_mac/mlx.h"
+# include "../mlx_linux/mlx.h"
 # include "../libft/libft.h"
 # include "../get_next_line/get_next_line.h"
-# include "keycode_macos.h"
 
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
+
+# if defined(__linux__)
+#  include "keycode_linux.h"
+# else
+#  include "keycode_macos.h"
+# endif
 
 # define WD_WIDTH 1920
 # define WD_HEIGHT 1080
@@ -74,7 +79,6 @@ typedef struct s_param
 	float	move_x;
 	float	move_y;
 	float	span;
-	float	zoom;
 	int		w;
 	int		h;
 }	t_param;

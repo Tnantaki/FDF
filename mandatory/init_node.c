@@ -67,8 +67,8 @@ void	init_node(t_node **node, t_param *par)
 		row = 0;
 		while (row < par->w)
 		{
-			node[col][row].y = col * par->span;
-			node[col][row].x = row * par->span;
+			node[col][row].y = col * (par->span * par->zoom);
+			node[col][row].x = row * (par->span * par->zoom);
 			row++;
 		}
 		col++;
@@ -79,6 +79,7 @@ void	initiate_node(t_param *par)
 {
 	par->move_x = 0;
 	par->move_y = 0;
+	par->zoom = 1;
 	calculate_begin_span(par);
 	calculate_first_node(par);
 	init_node(par->node, par);
