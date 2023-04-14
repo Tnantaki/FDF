@@ -34,7 +34,7 @@ void	my_mlx_clear_image(t_param *par)
 void	calculate_node(t_param *par, t_node **node)
 {
 	init_node(node, par);
-	project_isometric_node(node, par);
+	isometric_node(node, par);
 	set_node_center(node, par);
 	move_node(node, par);
 	render_line(&par->img, node, par);
@@ -46,7 +46,7 @@ void	calculate_node(t_param *par, t_node **node)
 int	key_hook(int keycode, t_param *par)
 {
 	int	event;
-	
+
 	event = 1;
 	if (keycode == KEY_ESC)
 		close_win(par);

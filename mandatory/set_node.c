@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_node.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/14 21:48:23 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/04/14 21:48:26 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fdf.h"
 
 void	move_node(t_node **node, t_param *par)
@@ -38,7 +50,7 @@ void	set_node_center(t_node **node, t_param *par)
 	}
 }
 
-void	project_isometric_node(t_node **node, t_param *par)
+void	isometric_node(t_node **node, t_param *par)
 {
 	int	col;
 	int	row;

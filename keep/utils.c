@@ -12,6 +12,20 @@
 
 #include "../includes/fdf.h"
 
+void	print_xy(t_param *par, char *title)
+{
+	printf("%s\n", title);
+	for (int i = 0; i < par->h; i++)
+	{
+		for (int j = 0; j < par->w; j++)
+		{
+			printf("(%d,", (int)(par->node[i][j].x));
+			printf("%d)", (int)(par->node[i][j].y));
+		}
+		printf("\n");
+	}
+}
+
 void	exit_msg(int code)
 {
 	ft_putstr_fd("\e[0;31m", 2);

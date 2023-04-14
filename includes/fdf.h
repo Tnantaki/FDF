@@ -78,10 +78,9 @@ typedef struct s_param
 	float	first_y;
 	float	move_x;
 	float	move_y;
+	float	span;
 	int		w;
 	int		h;
-	float	span;
-	float	k;
 }	t_param;
 
 // check map1
@@ -97,9 +96,9 @@ void	initiate_node(t_param *par);
 // set node
 void	set_node_center(t_node **node, t_param *par);
 void	move_node(t_node **node, t_param *par);
-void	project_isometric_node(t_node **node, t_param *par);
+void	isometric_node(t_node **node, t_param *par);
 // render
-void	render_point(t_image *img, t_node **node, int width, int height);
+void	render_point(t_image *img, t_node **node, t_param *par);
 void	render_line(t_image *img, t_node **node, t_param *par);
 // my mlx
 int		key_hook(int keycode, t_param *par);
@@ -110,14 +109,12 @@ void	double_free_n(void **ptr, int i);
 void	triple_free_n(void ***ptr, int i);
 // utils
 void	exit_msg(int code);
-void	print_xy(t_param *par, char *title);// don't forget to remove
 // mlx os
 int		init_window(t_param *par);
 int		create_image(t_param *par);
 int		close_win(t_param *par);
 void	put_pixel_to_image(t_image *img, t_node pix);
-// void	put_pixel_to_image(t_image *img, int x, int y, int color);
-//dda
+// equation
 void	isometric(t_node *pix);
 void	dda(t_image *img, t_node p1, t_node p2);
 

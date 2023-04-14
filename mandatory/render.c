@@ -12,16 +12,16 @@
 
 #include "../includes/fdf.h"
 
-void	render_point(t_image *img, t_node **node, int width, int height)
+void	render_point(t_image *img, t_node **node, t_param *par)
 {
 	int	col;
 	int	row;
 
 	col = 0;
-	while (col < height)
+	while (col < par->h)
 	{
 		row = 0;
-		while (row < width)
+		while (row < par->w)
 		{
 			put_pixel_to_image(img, node[col][row]);
 			row++;

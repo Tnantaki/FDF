@@ -82,7 +82,7 @@ void	initiate_node(t_param *par)
 	calculate_begin_span(par);
 	calculate_first_node(par);
 	init_node(par->node, par);
-	project_isometric_node(par->node, par);
+	isometric_node(par->node, par);
 	set_node_center(par->node, par);
 	render_line(&par->img, par->node, par);
 }
