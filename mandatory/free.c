@@ -16,6 +16,8 @@ void	double_free(void **ptr)
 {
 	int	i;
 
+	if (!ptr)
+		return ;
 	i = 0;
 	while (ptr[i])
 	{
@@ -29,6 +31,8 @@ void	triple_free(void ***ptr)
 {
 	int	i;
 
+	if (!ptr)
+		return ;
 	i = 0;
 	while (ptr[i])
 	{
@@ -40,6 +44,8 @@ void	triple_free(void ***ptr)
 
 void	double_free_n(void **ptr, int i)
 {
+	if (!ptr)
+		return ;
 	i--;
 	while (i >= 0)
 	{
@@ -51,6 +57,8 @@ void	double_free_n(void **ptr, int i)
 
 void	triple_free_n(void ***ptr, int i)
 {
+	if (!ptr)
+		return ;
 	i--;
 	while (i >= 0)
 	{

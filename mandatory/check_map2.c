@@ -45,24 +45,24 @@ int	check_row(t_param *par, char ***map)
 	return (1);
 }
 
-t_node	**allocate_wireframe(t_param *par)
+t_node	**malloc_node(int width, int height)
 {
 	int		i;
 	t_node	**node;
 
-	node = malloc(sizeof(t_node *) * par->h);
+	node = malloc(sizeof(t_node *) * (height + 1));
 	if (!node)
 		return (NULL);
 	i = 0;
-	while (i < par->w)
+	while (i < height)
 	{
-		node[i] = malloc(sizeof(t_node) * par->w);
+		node[i] = malloc(sizeof(t_node) * width);
 		if (!node[i])
 			break ;
 		i++;
 	}
-	if (i == par->w)
-		return (node);
+	if (i == height)
+		return (node[i] = NULL, node);
 	double_free_n((void *)node, i);
 	return (NULL);
 }
@@ -91,7 +91,7 @@ static int	htoi(char *str)
 	return (nb);
 }
 
-int	altitude_color(t_param *par, char ***map)
+int	load_map_to_node(t_param *par, char ***map)
 {
 	int		x;
 	int		y;

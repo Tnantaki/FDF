@@ -31,7 +31,8 @@
 # define WD_WIDTH 1920
 # define WD_HEIGHT 1080
 # define THETA 0.523599
-# define MOVE_RATIO 15
+# define MOVE_RATIO 20
+# define ZOOM_RATIO 1.1
 // error message
 # define ERR_ARG "The Program take one map file argument.\n"
 # define ERR_OPN "Can't open map file.\n"
@@ -73,11 +74,14 @@ typedef struct s_param
 	t_node	**node;
 	void	*mlx;
 	void	*win;
+	float	first_x;
+	float	first_y;
 	float	move_x;
 	float	move_y;
 	int		w;
 	int		h;
-	int		span;
+	float	span;
+	float	k;
 }	t_param;
 
 // check map1
@@ -85,18 +89,19 @@ int		check_filename(char *mapfile);
 char	***read_map(t_param *par, char *mapfile);
 // check map2
 int		check_row(t_param *par, char ***map);
-t_node	**allocate_wireframe(t_param *par);
-int		altitude_color(t_param *par, char ***map);
+t_node	**malloc_node(int width, int height);
+int		load_map_to_node(t_param *par, char ***map);
+// init node
+void	init_node(t_node **node, t_param *par);
+void	initiate_node(t_param *par);
 // set node
-void	set_node(t_param *par);
-void	project_isometric(t_node **node, int width, int height);
-// set center
-void	set_center(t_param *par);
+void	set_node_center(t_node **node, t_param *par);
+void	move_node(t_node **node, t_param *par);
+void	project_isometric_node(t_node **node, t_param *par);
 // render
 void	render_point(t_image *img, t_node **node, int width, int height);
-void	render_line(t_image *img, t_node **node, int width, int height);
+void	render_line(t_image *img, t_node **node, t_param *par);
 // my mlx
-void	change_node(t_param *par, t_node **node, int *change);
 int		key_hook(int keycode, t_param *par);
 // free
 void	double_free(void **ptr);
@@ -105,15 +110,15 @@ void	double_free_n(void **ptr, int i);
 void	triple_free_n(void ***ptr, int i);
 // utils
 void	exit_msg(int code);
+void	print_xy(t_param *par, char *title);// don't forget to remove
 // mlx os
-void	init_window(t_param *par);
+int		init_window(t_param *par);
+int		create_image(t_param *par);
 int		close_win(t_param *par);
-void	create_image(t_param *par);
-void	put_pixel_to_image(t_image *img, int x, int y, int color);
-//equation
-float	absolute(float num);
-float	find_max(float a, float b);
-void	isometric(float *x, float *y, float z);
+void	put_pixel_to_image(t_image *img, t_node pix);
+// void	put_pixel_to_image(t_image *img, int x, int y, int color);
+//dda
+void	isometric(t_node *pix);
 void	dda(t_image *img, t_node p1, t_node p2);
 
 #endif

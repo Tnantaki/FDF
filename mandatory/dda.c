@@ -12,29 +12,29 @@
 
 #include "../includes/fdf.h"
 
-float	absolute(float num)
+static float	abs_float(float num)
 {
 	if (num < 0)
 		num *= -1;
 	return (num);
 }
 
-float	find_max(float a, float b)
+static float	max_float(float a, float b)
 {
 	if (a > b)
 		return (a);
 	return (b);
 }
 
-void	isometric(float *x, float *y, float z)
+void	isometric(t_node *pix)
 {
 	float	pv_x;
 	float	pv_y;
 
-	pv_x = *x;
-	pv_y = *y;
-	*x = (pv_x - pv_y) * cos(THETA);
-	*y = (pv_x + pv_y) * sin(THETA) - z;
+	pv_x = pix->x;
+	pv_y = pix->y;
+	pix->x = (pv_x - pv_y) * cos(THETA);
+	pix->y = (pv_x + pv_y) * sin(THETA) - pix->z;
 }
 
 void	dda(t_image *img, t_node p1, t_node p2)
@@ -45,12 +45,12 @@ void	dda(t_image *img, t_node p1, t_node p2)
 
 	dx = p2.x - p1.x;
 	dy = p2.y - p1.y;
-	max = find_max(absolute(dx), absolute(dy));
+	max = max_float(abs_float(dx), abs_float(dy));
 	dx /= max;
 	dy /= max;
 	while ((int)(p1.x - p2.x) || (int)(p1.y - p2.y))
 	{
-		put_pixel_to_image(img, (int)p1.x, (int)p1.y, p1.clr);
+		put_pixel_to_image(img, p1);
 		p1.x += dx;
 		p1.y += dy;
 	}

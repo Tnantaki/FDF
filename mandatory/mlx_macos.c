@@ -12,21 +12,22 @@
 
 #include "../includes/fdf.h"
 
-void	init_window(t_param *par)
+int	init_window(t_param *par)
 {
 	par->mlx = mlx_init();
 	if (par->mlx == NULL)
 	{
 		double_free((void *)par->node);
-		exit(1);
+		return (0);
 	}
 	par->win = mlx_new_window(par->mlx, WD_WIDTH, WD_HEIGHT, "fdf");
 	if (par->win == NULL)
 	{
 		double_free((void *)par->node);
 		free(par->mlx);
-		exit(1);
+		return (0);
 	}
+	return (1);
 }
 
 int	close_win(t_param *par)
@@ -38,7 +39,7 @@ int	close_win(t_param *par)
 	return (0);
 }
 
-void	create_image(t_param *par)
+int	create_image(t_param *par)
 {
 	par->img.ptr = mlx_new_image(par->mlx, WD_WIDTH, WD_HEIGHT);
 	if (par->img.ptr == NULL)
@@ -46,19 +47,21 @@ void	create_image(t_param *par)
 		mlx_destroy_window(par->mlx, par->win);
 		double_free((void *)par->node);
 		free(par->mlx);
-		exit(1);
+		return (0);
 	}
 	par->img.addr = mlx_get_data_addr(par->img.ptr, &par->img.bpp,
 			&par->img.line_len, &par->img.endian);
+	par->img.bpp /= 8;
+	return (1);
 }
 
-void	put_pixel_to_image(t_image *img, int x, int y, int color)
+void	put_pixel_to_image(t_image *img, t_node pix)
 {
 	unsigned int	*dst;
 
-	if (x >= 0 && x < WD_WIDTH && y >= 0 && y < WD_HEIGHT)
+	if (pix.x >= 0 && pix.x < WD_WIDTH && pix.y >= 0 && pix.y < WD_HEIGHT)
 	{
-		dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
-		*dst = (unsigned int)color;
+		dst = img->addr + ((int)pix.y * img->line_len + (int)pix.x * img->bpp);
+		*dst = (unsigned int)pix.clr;
 	}
 }

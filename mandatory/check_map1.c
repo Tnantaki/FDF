@@ -90,10 +90,7 @@ static int	get_map(char ***map, int fd, int height)
 		y++;
 	}
 	if (y == height)
-	{
-		map[y] = NULL;
-		return (1);
-	}
+		return (map[y] = NULL, 1);
 	triple_free_n((void *)map, y);
 	return (0);
 }
@@ -109,14 +106,8 @@ char	***read_map(t_param *par, char *mapfile)
 	par->h = count_line(mapfile);
 	map = malloc(sizeof(char *) * (par->h + 1));
 	if (!map)
-	{
-		close(fd);
-		exit(1);
-	}
+		return (close(fd), NULL);
 	if (get_map(map, fd, par->h) != 1)
-	{
-		close(fd);
-		exit(1);
-	}
+		return (close(fd), NULL);
 	return (map);
 }

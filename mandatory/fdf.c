@@ -12,21 +12,7 @@
 
 #include "../includes/fdf.h"
 
-void	print_xy(t_param *par, char *title)
-{
-	printf("%s\n", title);
-	for (int i = 0; i < par->h; i++)
-	{
-		for (int j = 0; j < par->w; j++)
-		{
-			printf("(%d,", (int)(par->node[i][j].x));
-			printf("%d)", (int)(par->node[i][j].y));
-		}
-		printf("\n");
-	}
-}
-
-void	check_error(t_param *par, int ac, char **av)
+int	check_error(t_param *par, int ac, char **av)
 {
 	char	***map;
 	char	*mapfile;
@@ -37,38 +23,36 @@ void	check_error(t_param *par, int ac, char **av)
 	if (check_filename(mapfile) != 1)
 		exit_msg(3);
 	map = read_map(par, mapfile);
+	if (!map)
+		return (0);
 	if (check_row(par, map) != 1)
 		exit_msg(4);
-	par->node = allocate_wireframe(par);
+	par->node = malloc_node(par->w, par->h);
 	if (!par->node)
-	{
-		triple_free((void *)map);
-		exit(1);
-	}
-	if (altitude_color(par, map) != 1)
-	{
-		triple_free((void *)map);
-		double_free((void *)par->node);
-		exit(1);
-	}
+		return (triple_free((void *)map), 0);
+	if (load_map_to_node(par, map) != 1)
+		return (triple_free((void *)map), double_free((void *)par->node), 0);
+	return (1);
 }
+
 
 int	main(int ac, char **av)
 {
 	t_param	par;
 
-	check_error(&par, ac, av);
-	init_window(&par);
-	create_image(&par);
-	set_node(&par);
+	if (check_error(&par, ac, av) != 1)
+		exit(1);
+	if (init_window(&par) != 1)
+		exit(1);
+	if (create_image(&par) != 1)
+		exit(1);
+	initiate_node(&par);
 	// print_xy(&par, "Before Rotate");
-	set_center(&par);
-	render_point(&par.img, par.node, par.w, par.h);
-	render_line(&par.img, par.node, par.w, par.h);
+	// render_point(&par.img, par.node, par.w, par.h);
 	// print_xy(&par, "After Rotate");
 	mlx_put_image_to_window(par.mlx, par.win, par.img.ptr, 0, 0);
 	// mlx_key_hook(par.win, key_hook, &par);
 	mlx_hook(par.win, 2, 1L<<0, key_hook, &par);
-	mlx_hook(par.win, 17, 0, close_win, &par);
+	// mlx_hook(par.win, 17, 0, close_win, &par);
 	mlx_loop(par.mlx);
 }

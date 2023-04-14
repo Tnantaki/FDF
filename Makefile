@@ -27,8 +27,8 @@ ifeq ($(UNAME), Linux)
 	MLX_HEAD	= -Imlx_linux
 else
 	MANDA_SRCS	= fdf.c check_map1.c check_map2.c my_mlx.c free.c utils.c\
-					 mlx_macos.c set_node.c set_center.c render.c\
-					 equation.c
+					 mlx_macos.c init_node.c set_node.c render.c\
+					 dda.c
 	MLX_DIR		= mlx_mac
 	MLX_FLAGS	= -Lmlx_mac -lmlx -framework OpenGL -framework AppKit
 	MLX_HEAD	= -Imlx_mac

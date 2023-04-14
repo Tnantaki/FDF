@@ -1,21 +1,35 @@
 #include <stdio.h>
-#include <math.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/time.h>
+
 typedef struct s_bsh
 {
-	int	x1;
-	int	x2;
-	int	y1;
-	int	y2;
+	int	sx;
+	int	sy;
+	int	step;
+	int	*long_leg;
+	int	*short_leg;
+	int	*long_step;
+	int	*short_step;
 	int	dx;
 	int	dy;
-	int	ka;
-	int	kb;
-	int	*a;
-	int	*b;
 	int	p;
-	int	max;
-	int	min;
-} t_bsh;
+}	t_bsh;
+
+typedef struct s_node
+{
+	float	x;
+	float	y;
+}	t_dda;
+
+typedef struct s_bsh2
+{
+	int	x;
+	int	y;
+}	t_bsh2;
+
+void	bresenham(t_bsh2 p1, t_bsh2 p2);
 
 float	absolute(float num)
 {
@@ -31,165 +45,197 @@ float	find_max(float a, float b)
 	return (b);
 }
 
-void bresenham_float(float x1, float x2, float y1, float y2)
+void	dda(t_dda p1, t_dda p2)
 {
-	float dx = x2 - x1;
-	float dy = y2 - y1;
-	float max = find_max(absolute(dx), absolute(dy));
+	float    dx;
+	float    dy;
+	float    max;
+
+	dx = p2.x - p1.x;
+	dy = p2.y - p1.y;
+	max = find_max(absolute(dx), absolute(dy));
 	dx /= max;
 	dy /= max;
-	float x = x1;
-	float y = y1;
-
-	int i = 0;
-	while (i < max)
+	while ((int)(p1.x - p2.x) || (int)(p1.y - p2.y))
 	{
-		i++;
-		// printf("point:%d", i);
-		printf("(%d,%d) ", (int)x, (int)y);
-		// printf("(%f,%f)\n", x, y);
-		x = x1 + round(dx * i);
-		y = y1 + round(dy * i);
-
-		// x1 = round((float)x1 + dx * i);
-		// y1 += dy;
-	}
-	printf("\n");
-	// printf("X1:%d\n", x1);
-}
-
-void	ft_setting(t_bsh *bsh)
-{
-	int	x = 1;
-	int	y = 1;
-	bsh->ka = 1;
-	bsh->kb = 1;
-	bsh->dx = bsh->x2 - bsh->x1;
-	bsh->dy = bsh->y2 - bsh->y1;
-	if (bsh->dx < 0)
-	{
-		bsh->dx *= -1;
-		x = -1;
-	}
-	if (bsh->dy < 0)
-	{
-		bsh->dy *= -1;
-		y = -1;
-	}
-	// bsh.dy = absolute(bsh.y2 - bsh.y1);
-	if (bsh->dx > bsh->dy)
-	{
-		bsh->b = &bsh->x1;
-		bsh->a = &bsh->y1;
-		bsh->max = bsh->dx;
-		bsh->min = bsh->dy;
-		bsh->kb = x;
-		bsh->ka = y;
-	}
-	else
-	{
-		bsh->b = &bsh->y1;
-		bsh->a = &bsh->x1;
-		bsh->max = bsh->dy;
-		bsh->min = bsh->dx;
-		bsh->kb = y;
-		bsh->ka = x;
-	}
-}
-
-
-
-void bresenham_P(t_bsh bsh)
-{
-	ft_setting(&bsh);
-
-	bsh.p = (2 * bsh.min) + bsh.max;
-	int i;
-	i = 0;
-	// while ((int)(x1 - x2) || (int)(y1 - y2))
-	while (i < bsh.max)
-	{
-		printf("p:%d ", bsh.p);
-		printf("(%d,%d) ", bsh.x1, bsh.y1);
-		if (bsh.p < 0)
-		{
-			bsh.p = bsh.p + (2 * bsh.min);
-			*bsh.a += bsh.ka;
-		}
-		else
-			bsh.p = bsh.p + (2 * bsh.min) - (2 * bsh.max);
-		*bsh.b += bsh.kb;
-		i++;
+		printf("(%d,%d) ", (int)p1.x, (int)p1.y);
+		p1.x += dx;
+		p1.y += dy;
 	}
 	printf("\n");
 }
 
-void bresenham(float x1, float x2, float y1, float y2)
-{
-	float	dx = x2 - x1;
-	float	dy = y2 - y1;
-	float	max = find_max(absolute(dx), absolute(dy));
-	dx /= max;
-	dy /= max;
+// void	long_leg_x(t_bsh2 start, t_bsh2 end, t_bsh bsh)
+// {
+// 	bsh.p = (2 * bsh.dy) + bsh.dx;
+// 	while (start.x < end.x)
+// 	{
+// 		printf("p:%d\n", bsh.p);
+// 		printf("(%d,%d) ", start.x, start.y);
+// 		if (bsh.p < 0)
+// 		{
+// 			bsh.p = bsh.p + (2 * bsh.dy);
+// 			start.y += bsh.k;
+// 		}
+// 		else
+// 		{
+// 			bsh.p = bsh.p + (2 * bsh.dy) - (2 * bsh.dx);
+// 		}
+// 		start.x++;
+// 	}
+// 	printf("\n");
+// }
 
-	while ((int)(x1 - x2) || (int)(y1 - y2))
-	{
-		printf("(%d,%d) ", (int)x1, (int)y1);
-		x1 += dx;
-		y1 += dy;
-	}
-	printf("\n");
-}
-#include <time.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/time.h>
+// void	long_leg_y(t_bsh2 start, t_bsh2 end, t_bsh bsh)
+// {
+// 	bsh.p = (2 * bsh.dx) + bsh.dy;
+// 	while (start.y < end.y)
+// 	{
+// 		printf("(%d,%d) ", start.x, start.y);
+// 		if (bsh.p < 0)
+// 		{
+// 			bsh.p = bsh.p + (2 * bsh.dx);
+// 			start.x++;
+// 		}
+// 		else
+// 		{
+// 			bsh.p = bsh.p + (2 * bsh.dx) - (2 * bsh.dy);
+// 		}
+// 		start.y += bsh.k;
+// 	}
+// 	printf("\n");
+// }
+
+
+// void	bresenham(t_bsh2 p1, t_bsh2 p2)
+// {
+// 	t_bsh	bsh;
+
+// 	bsh.dx = p2.x - p1.x;
+// 	bsh.dy = p2.y - p1.y;
+// 	if (bsh.dx > 0)
+// 	{
+// 		bsh.k = 1;
+// 		if (bsh.dy < 0)
+// 			bsh.k = -1;
+// 		bsh.dx = absolute_int(bsh.dx);
+// 		bsh.dy = absolute_int(bsh.dy);
+// 		if (bsh.dx > bsh.dy)
+// 			long_leg_x(p1, p2, bsh);
+// 		else
+// 			long_leg_y(p1, p2, bsh);
+// 	}
+// 	else
+// 	{
+// 		bsh.k = 1;
+// 		if (bsh.dy > 0)
+// 			bsh.k = -1;
+// 		bsh.dx = absolute_int(bsh.dx);
+// 		bsh.dy = absolute_int(bsh.dy);
+// 		if (bsh.dx > bsh.dy)
+// 			long_leg_x(p2, p1, bsh);
+// 		else
+// 			long_leg_y(p2, p1, bsh);
+// 	}
+// }
+
 long int	get_elapse_time(void)
 {
-	struct timeval	time;
+	struct timeval    time;
 
 	gettimeofday(&time, NULL);
 	return (time.tv_sec * 1000000 + time.tv_usec);
 }
 
+void	bresenham2(t_bsh2 p1, t_bsh2 p2)
+{
+	int p;
+	int dx;
+	int dy;
+
+	dx = p2.x - p1.x - 1;
+	dy = p2.y - p1.y - 1;
+	p = (2 * dy) - dx;
+	while (p1.x < p2.x)
+	{
+		printf("(%d,%d) ", p1.x, p1.y);
+		if (p < 0)
+		{
+			p = p + (2 * dy);
+		}
+		else
+		{
+			p = p + (2 * dy) - (2 * dx);
+			p1.y++;
+		}
+		p1.x++;
+	}
+	printf("\n");
+}
+
+void drawLine(int x1, int y1, int x2, int y2) {
+	int dx = abs(x2 - x1);
+	int dy = abs(y2 - y1);
+	int sx, sy, err, e2;
+	
+	if (x1 < x2) {
+		sx = 1;
+	} else {
+		sx = -1;
+	}
+	
+	if (y1 < y2) {
+		sy = 1;
+	} else {
+		sy = -1;
+	}
+	
+	err = dx - dy;
+	int max = dy;
+	if (dx > dy)
+		max = dx;
+	int i = 0;
+	
+	while (i++ < max) {
+		printf("(%d,%d) ", x1, y1);
+		// setPixel(x1, y1); // setPixel() is a function that sets a pixel at the specified coordinates
+		
+		// if (x1 == x2 && y1 == y2) {
+		// 	break;
+		// }
+		
+		e2 = 2 * err;
+		
+		if (e2 > -dy) {
+			err -= dy;
+			x1 += sx;
+		}
+		
+		if (e2 < dx) {
+			err += dx;
+			y1 += sy;
+		}
+	}
+}
+
+#define ZERO 0
+#define X2 40
+#define Y2 5
+
 int	main(void)
 {
-	t_bsh	bsh;
-	int x1 = 20;
-	int y1 = 20;
-	int x2 = 4;
-	int y2 = 9;
-	bsh.x1 = x1;
-	bsh.y1 = y1;
-	bsh.x2 = x2;
-	bsh.y2 = y2;
+	t_dda	d1 = {ZERO, ZERO};
+	t_dda	d2 = {X2,Y2};
+	t_bsh2	b1 = {ZERO,ZERO};
+	t_bsh2	b2 = {X2,Y2};
 
-	// printf("bresenham\n");
-	// bresenham(x1, x2, y1, y2);
-	// printf("---------\n");
-	// printf("P\n");
-	// bresenham_P(bsh);
-	// printf("---------\n");
-	// printf("float\n");
-	// bresenham_float(x1, x2, y1, y2);
-	// printf("%d\n", a / b);
 	long int t = get_elapse_time();
-
-	int a = 200000000;
-	int a2 = 343;
-	int a3 = 343;
-	int	a4 = 41;
-	int	a5 = 89;
-	float b = 200000000;
-	float b2 = 530;
-	float b3 = 343;
-	for (int i = 0; i < 10000; i++)
-		a = (a / a2) * a3 - 50 + 25 * 2 - a4 + a5;
-	// for (int i = 0; i < 10000; i++)
-	// 	b = (b / b2) * b3;
-	printf("a:%d\n", a);
-	// printf("b:%f\n", b);
-
+	printf("DDA\n");
+	dda(d1, d2);
+	printf("---------\n");
+	printf("Bresenham\n");
+	// drawLine(b1.x, b1.y, b2.x, b2.y);
+	bresenham2(b1,b2);
 	printf("time:%ld\n", get_elapse_time() - t);
-
-}
+	return (0);
+} 
