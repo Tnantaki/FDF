@@ -51,14 +51,45 @@ t_node	**malloc_node(int width, int height)
 	return (NULL);
 }
 
+
+//#include "mlx_mac/mlx_int.h"
+#include <string.h>
+
 int	main(void)
 {
 	int		width = 20;
 	int		height = 10;
+	t_param	par;
 
-	t_node **str = malloc_node(width, height); 
-	// printf("%p\n", str[height - 1]);
-	double_free((void **)str);
-	// free_node(str);
 	printf("Hello\n");
+	// printf("sizeof par:%lu\n", sizeof(*par));
+//	par.mlx = mlx_init();
+//	free((mlx_img_list_t)par.mlx.font);
+//	free(par.mlx);
+	// par.win = mlx_new_window(par.mlx, 500, 500, "fdf");
+	// t_node **str = malloc_node(width, height); 
+	// printf("%p\n", str[height - 1]);
+	// double_free((void **)str);
+	// free_node(str);
+	// while (1);
+	// mlx_loop(par.mlx);
+	char *str = strdup("Sawatdee");
+	printf("%s\n", str);
+	free(str);
 }
+
+// int	init_window(t_param *par)
+// {
+// 	if (par->mlx == NULL)
+// 	{
+// 		double_free((void *)par->node);
+// 		return (0);
+// 	}
+// 	if (par->win == NULL)
+// 	{
+// 		double_free((void *)par->node);
+// 		free(par->mlx);
+// 		return (0);
+// 	}
+// 	return (1);
+// }

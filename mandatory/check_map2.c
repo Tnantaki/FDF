@@ -67,30 +67,6 @@ t_node	**malloc_node(int width, int height)
 	return (NULL);
 }
 
-static int	htoi(char *str)
-{
-	int			i;
-	long long	nb;
-
-	i = 0;
-	nb = 0;
-	if (str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
-		i += 2;
-	while (str[i])
-	{
-		if (str[i] >= '0' && str[i] <= '9')
-			nb = nb * 16 + (str[i] - '0');
-		else if (str[i] >= 'a' && str[i] <= 'f')
-			nb = nb * 16 + (str[i] - 87);
-		else if (str[i] >= 'A' && str[i] <= 'F')
-			nb = nb * 16 + (str[i] - 55);
-		else
-			break ;
-		i++;
-	}
-	return (nb);
-}
-
 int	load_map_to_node(t_param *par, char ***map)
 {
 	int		x;
@@ -106,11 +82,11 @@ int	load_map_to_node(t_param *par, char ***map)
 			tmp = ft_split(map[y][x], ',');
 			if (!tmp)
 				return (0);
-			par->node[y][x].z = (float)(atoi(tmp[0]));
+			par->node[y][x].z = (float)(ft_atoi(tmp[0]));
 			if (tmp[1] == NULL)
 				par->node[y][x].clr = WHITE_PIXEL;
 			else
-				par->node[y][x].clr = (int)(htoi(tmp[1]));
+				par->node[y][x].clr = (int)(ft_hextoi(tmp[1]));
 			double_free((void *)tmp);
 			x++;
 		}

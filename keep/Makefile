@@ -8,10 +8,8 @@ MANDA_PATH	= mandatory/
 BONUS_PATH	=
 
 ### Source Files ###
-MANDA_SRCS	= fdf.c check_map1.c check_map2.c init_node.c set_node.c\
-				mlx_macos.c mlx_event.c render.c equation.c free.c utils.c 
-
-LIBFT_SRCS	= ft_strlen.c ft_putstr_fd.c ft_atoi.c ft_split.c
+LIBFT_SRCS	= ft_strlen.c ft_strdup.c ft_putstr_fd.c ft_putnbr_fd.c\
+				ft_itoa.c ft_atoi.c ft_split.c ft_isdigit.c
 
 GNL_SRCS	= get_next_line.c get_next_line_utils.c
 
@@ -21,9 +19,20 @@ RM		= rm -f
 C_FLAGS	= -Wall -Wextra -Werror
 
 ### OS Flags ###
-MLX_DIR		= mlx_mac
-MLX_FLAGS	= -Lmlx_mac -lmlx -framework OpenGL -framework AppKit
-MLX_HEAD	= -Imlx_mac
+UNAME = $(shell uname -s)
+ifeq ($(UNAME), Linux)
+	MANDA_SRCS	= fdf.c check_error.c check_map.c render.c my_mlx.c utils.c mlx_linux.c
+	MLX_DIR		= mlx_linux
+	MLX_FLAGS	= -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+	MLX_HEAD	= -Imlx_linux
+else
+	MANDA_SRCS	= fdf.c check_map1.c check_map2.c my_mlx.c init_node.c set_node.c\
+					 mlx_macos.c render.c equation.c free.c utils.c 
+
+	MLX_DIR		= mlx_mac
+	MLX_FLAGS	= -Lmlx_mac -lmlx -framework OpenGL -framework AppKit
+	MLX_HEAD	= -Imlx_mac
+endif
 
 ### Mandatory Source Files ###
 SRCS	=	$(addprefix $(MANDA_PATH), $(MANDA_SRCS))\

@@ -12,6 +12,30 @@
 
 #include "../includes/fdf.h"
 
+int	ft_hextoi(char *str)
+{
+	int			i;
+	long long	nb;
+
+	i = 0;
+	nb = 0;
+	if (str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
+		i += 2;
+	while (str[i])
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+			nb = nb * 16 + (str[i] - '0');
+		else if (str[i] >= 'a' && str[i] <= 'f')
+			nb = nb * 16 + (str[i] - 87);
+		else if (str[i] >= 'A' && str[i] <= 'F')
+			nb = nb * 16 + (str[i] - 55);
+		else
+			break ;
+		i++;
+	}
+	return (nb);
+}
+
 void	exit_msg(int code)
 {
 	ft_putstr_fd("\e[0;31m", 2);

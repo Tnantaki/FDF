@@ -97,9 +97,17 @@ void	initiate_node(t_param *par);
 void	set_node_center(t_node **node, t_param *par);
 void	move_node(t_node **node, t_param *par);
 void	isometric_node(t_node **node, t_param *par);
+// equation
+void	isometric(t_node *pix);
+void	dda(t_image *img, t_node p1, t_node p2);
 // render
 void	render_point(t_image *img, t_node **node, t_param *par);
 void	render_line(t_image *img, t_node **node, t_param *par);
+// mlx os
+int		init_window(t_param *par);
+int		create_image(t_param *par);
+int		close_win(t_param *par);
+void	put_pixel_to_image(t_image *img, t_node pix);
 // my mlx
 int		key_hook(int keycode, t_param *par);
 // free
@@ -108,14 +116,7 @@ void	triple_free(void ***ptr);
 void	double_free_n(void **ptr, int i);
 void	triple_free_n(void ***ptr, int i);
 // utils
+int		ft_hextoi(char *str);
 void	exit_msg(int code);
-// mlx os
-int		init_window(t_param *par);
-int		create_image(t_param *par);
-int		close_win(t_param *par);
-void	put_pixel_to_image(t_image *img, t_node pix);
-// equation
-void	isometric(t_node *pix);
-void	dda(t_image *img, t_node p1, t_node p2);
 
 #endif
