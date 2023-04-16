@@ -71,11 +71,15 @@ static int	ft_gnl_len(const char *str)
 	return (i);
 }
 
-static int	get_map(char ***map, int fd, int height)
+static int	get_map(char ***map, char *mapfile, int height)
 {
+	int		fd;
 	char	*line;
 	int		y;
 
+	fd = open(mapfile, O_RDONLY);
+	if (fd == -1)
+		return (free(map), exit_msg(2), 0);
 	y = 0;
 	while (y < height)
 	{
@@ -89,6 +93,7 @@ static int	get_map(char ***map, int fd, int height)
 			break ;
 		y++;
 	}
+	close(fd);
 	if (y == height)
 		return (map[y] = NULL, 1);
 	triple_free_n((void *)map, y);
@@ -98,16 +103,12 @@ static int	get_map(char ***map, int fd, int height)
 char	***read_map(t_param *par, char *mapfile)
 {
 	char	***map;
-	int		fd;
 
-	fd = open(mapfile, O_RDONLY);
-	if (fd == -1)
-		exit_msg(2);
 	par->h = count_line(mapfile);
 	map = malloc(sizeof(char *) * (par->h + 1));
 	if (!map)
-		return (close(fd), NULL);
-	if (get_map(map, fd, par->h) != 1)
-		return (close(fd), NULL);
+		return (NULL);
+	if (get_map(map, mapfile, par->h) != 1)
+		return (NULL);
 	return (map);
 }

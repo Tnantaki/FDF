@@ -32,6 +32,7 @@ int	init_window(t_param *par)
 
 int	close_win(t_param *par)
 {
+	mlx_destroy_image(par->mlx, par->img.ptr);
 	mlx_destroy_window(par->mlx, par->win);
 	double_free((void *)par->node);
 	free(par->mlx);

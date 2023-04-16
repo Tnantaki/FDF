@@ -38,7 +38,7 @@ int	check_row(t_param *par, char ***map)
 	{
 		len2 = count_map_width(map[i]);
 		if (len1 != len2)
-			return (0);
+			return (triple_free((void *)map), 0);
 		i++;
 	}
 	par->w = len1;
