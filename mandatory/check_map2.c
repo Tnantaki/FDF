@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "fdf.h"
 
 static int	count_map_width(char **ptr)
 {
@@ -92,5 +92,5 @@ int	load_map_to_node(t_param *par, char ***map)
 		}
 		y++;
 	}
-	return (1);
+	return (triple_free((void *)map), 1);
 }

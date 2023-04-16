@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "fdf.h"
 
-void	init_window(t_param *par)
+int	init_window(t_param *par)
 {
 	par->mlx = mlx_init();
 	if (par->mlx == NULL)
 	{
 		double_free((void *)par->node);
-		exit(1);
+		return (0);
 	}
 	par->win = mlx_new_window(par->mlx, WD_WIDTH, WD_HEIGHT, "fdf");
 	if (par->win == NULL)
@@ -26,8 +26,9 @@ void	init_window(t_param *par)
 		double_free((void *)par->node);
 		mlx_destroy_display(par->mlx);
 		free(par->mlx);
-		exit(1);
+		return (0);
 	}
+	return (1);
 }
 
 int	close_win(t_param *par)

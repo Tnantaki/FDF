@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keycode_linux.h                                    :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/11 21:04:20 by tnantaki          #+#    #+#             */
-/*   Updated: 2023/03/11 21:04:21 by tnantaki         ###   ########.fr       */
+/*   Created: 2023/03/11 18:47:14 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/04/11 08:30:01 by tnantaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef KEYCODE_LINUX_H
-# define KEYCODE_LINUX_H
+#include "fdf.h"
 
-# include <X11/keysym.h>
-# include <X11/X.h>
-
-# define KEY_ESC 65307
-# define KEY_W 119
-# define KEY_A 97
-# define KEY_S 115
-# define KEY_D 100
-# define KEY_UP 65362
-# define KEY_LEFT 65361
-# define KEY_DOWN 65364
-# define KEY_RIGHT 65363
-
-#endif
+void	print_xy(t_param *par, char *title)
+{
+	printf("%s\n", title);
+	for (int i = 0; i < par->h; i++)
+	{
+		for (int j = 0; j < par->w; j++)
+		{
+			printf("(%d,", (int)(par->node[i][j].x));
+			printf("%d)", (int)(par->node[i][j].y));
+		}
+		printf("\n");
+	}
+}
